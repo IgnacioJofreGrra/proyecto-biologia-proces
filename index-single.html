@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia: Salud Cardiovascular (Archivo Único)</title>
+    <!-- Fuente opcional desde Google (requiere internet). Si estás offline, el navegador usará la tipografía por defecto. -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+/* ========== CSS embebido desde assets/css/style.css ========== */
+:root {
+    --color-primario: #005a9c; /* Azul */
+    --color-secundario: #d4002c; /* Rojo */
+    --color-fondo: #f4f7f6;
+    --color-texto: #333;
+    --color-blanco: #ffffff;
+    --color-correcto: #28a745;
+    --color-incorrecto: #dc3545;
+}
+
+body {
+    font-family: 'Lato', Arial, Helvetica, sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    margin: 0;
+    padding: 10px; /* Padding para mobile */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+h1, h2, h3 {
+    color: var(--color-primario);
+    margin-bottom: 0.5em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    border-bottom: 3px solid var(--color-secundario);
+    padding-bottom: 10px;
+}
+
+h2 {
+    font-size: 2rem;
+    color: var(--color-secundario);
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+li::before {
+    content: '❤️';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    font-size: 1.1rem;
+}
+
+strong {
+    color: var(--color-primario);
+}
+
+.slideshow-container {
+    position: relative;
+    background: var(--color-blanco);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 40px;
+    box-sizing: border-box;
+    min-height: 450px;
+    overflow: visible; /* Permitir que los botones se salgan un poco */
+}
+
+.slide {
+    display: none;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.slide img {
+    width: 100%;
+    max-height: 250px; /* Altura máxima para la imagen */
+    object-fit: contain; /* Ajusta la imagen sin recortarla, manteniendo proporciones */
+    border-radius: 10px;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    background-color: #f0f4f8; /* Fondo para las imágenes */
+    padding: 10px; /* Pequeño padding interno para las imágenes */
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.nav-btn:hover {
+    background-color: var(--color-secundario);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+    left: -25px;
+}
+
+.next-btn {
+    right: -25px;
+}
+
+.slide-counter {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 1rem;
+    color: #888;
+    font-weight: bold;
+}
+
+/* --- Estilos de la Trivia --- */
+
+.trivia-question h3 {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.question-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+.answer-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option {
+    background-color: #f0f4f8;
+    border: 2px solid #d1d9e0;
+    border-radius: 10px;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-left: 50px;
+}
+
+.option::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-primario);
+    border-radius: 50%;
+    background-color: var(--color-blanco);
+}
+
+.option:hover {
+    background-color: #e1eaf2;
+    border-color: var(--color-primario);
+}
+
+.option.correct {
+    background-color: #e9f7ec;
+    border-color: var(--color-correcto);
+    color: #1a4d23;
+    font-weight: bold;
+}
+.option.correct::before {
+    background-color: var(--color-correcto);
+    border-color: var(--color-correcto);
+    content: '✔';
+    color: var(--color-blanco);
+    text-align: center;
+    line-height: 24px;
+}
+.option.incorrect {
+    background-color: #fdecea;
+    border-color: var(--color-incorrecto);
+    color: #5d171e;
+    font-weight: bold;
+}
+.option.incorrect::before {
+    background-color: var(--color-incorrecto);
+    border-color: var(--color-incorrecto);
+    content: '✖';
+    color: var(--color-blanco);
+    text-align: center;
+    line-height: 24px;
+}
+
+.feedback {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    border-left: 5px solid;
+}
+.feedback.show { display: block; animation: fadeIn 0.5s; }
+.feedback.correct { background-color: #e9f7ec; border-color: var(--color-correcto); }
+.feedback.incorrect { background-color: #fdecea; border-color: var(--color-incorrecto); }
+
+/* --- Estilos Responsive Mobile --- */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+    }
+    .slideshow-container {
+        width: 100%;
+        margin: 0;
+        padding: 40px 20px; /* Menos padding horizontal */
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+        overflow-y: auto; /* Permitir scroll si el contenido es largo */
+    }
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.5rem; }
+    li, .option { font-size: 1rem; }
+    .question-text { font-size: 1.2rem; }
+    .slide img { max-height: 200px; } /* Imagen más pequeña en mobile */
+    
+    .nav-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    .prev-btn { left: 5px; }
+    .next-btn { right: 5px; }
+    
+    .slide-counter { top: 10px; right: 15px; font-size: 0.9rem; }
+}
+    </style>
+</head>
+<body>
+
+    <div class="slideshow-container">
+
+        <div class="slide-counter" id="slide-counter"></div>
+
+        <div class="slide">
+            <h1>Trivia: ¡Un Vistazo al Corazón de Uruguay!</h1>
+            <h2 style="text-align: center; color: var(--color-texto); font-weight: 400; font-size: 1.5rem;">Presentación de datos clave</h2>
+            <p style="font-size: 1.2rem; text-align: center; margin-top: 30px;">
+                ¡Hola! A continuación, veremos 5 datos clave sobre la salud cardiovascular.
+                <br><br>
+                ¡Presten mucha atención! Luego, usaremos esa información para jugar una trivia.
+            </p>
+        </div>
+
+        <div class="slide">
+            <h2>El Problema N°1 en el Mundo</h2>
+            <ul>
+                <li>Las enfermedades cardiovasculares (ECV) son la <strong>principal causa de mortalidad</strong> en todo el planeta.</li>
+                <li>Se calcula que en 2022, el <strong>32%</strong> de todas las muertes registradas en el mundo (casi un tercio) fueron consecuencia de una ECV.</li>
+            </ul>
+            <img src="https://raw.githubusercontent.com/IgnacioJofreGrra/proyecto-biologia-proces/main/images/global_mortality.png" alt="Gráfico de porcentaje de mortalidad global por ECV">
+        </div>
+
+        <div class="slide">
+            <h2>La Culpable Silenciosa</h2>
+            <ul>
+                <li><strong>¿Qué es la Aterosclerosis?</strong> Es la principal culpable detrás de la mayoría de las ECV.</li>
+                <li>Es un <strong>proceso crónico, progresivo y silencioso</strong> que consiste en la acumulación de depósitos de grasa y colesterol (la "placa") en el revestimiento interno de las arterias.</li>
+            </ul>
+            <img src="https://raw.githubusercontent.com/IgnacioJofreGrra/proyecto-biologia-proces/main/images/atherosclerosis.png" alt="Ilustración de una arteria sana y una arteria con placa de aterosclerosis">
+        </div>
+
+        <div class="slide">
+            <h2>Nuestros Hábitos y Riesgos (1/2)</h2>
+            <ul>
+                <li><strong>La "Brecha de Conocimiento":</strong></li>
+                <li>¡Es alarmante! <strong>Casi la mitad de las personas que tienen hipertensión o diabetes... ¡no saben que las padecen!</strong>
+                <br>Además, muy pocos de los que sí lo saben logran tenerla bien controlada.</li>
+            </ul>
+            <img src="https://raw.githubusercontent.com/IgnacioJofreGrra/proyecto-biologia-proces/main/images/knowledge_gap.png" alt="Silueta de una persona con un signo de interrogación sobre su cabeza, representando la falta de conocimiento sobre su salud">
+        </div>
+
+        <div class="slide">
+            <h2>Nuestros Hábitos y Riesgos (2/2)</h2>
+            <ul>
+                <li><strong>Consumo de Sal:</strong>
+                    <br>El consumo promedio en Uruguay es de <strong>9.7 gramos por día</strong>. ¡Casi el doble de la recomendación máxima de 5 gramos de la OMS!
+                </li>
+                <li><strong>Sedentarismo Juvenil:</strong>
+                    <br><strong>7 de cada 10 adolescentes</strong> uruguayos (de 13 a 15 años) no realizan la actividad física mínima recomendada.
+                </li>
+            </ul>
+            <img src="https://raw.githubusercontent.com/IgnacioJofreGrra/proyecto-biologia-proces/main/images/salt_sedentary.png" alt="Salero y una persona joven en un sofá con un teléfono, simbolizando el sedentarismo">
+        </div>
+
+        <div class="slide">
+            <h2>El Equipo de Respuesta</h2>
+            <ul>
+                <li><strong>Fondo Nacional de Recursos (FNR):</strong>
+                    <br>Tiene un programa específico de prevención cardiovascular.
+                </li>
+                <li>Su enfoque es la <strong>prevención secundaria</strong>. Es decir, se enfoca en el seguimiento de pacientes que <strong>ya han sido diagnosticados</strong> con enfermedad coronaria.</li>
+            </ul>
+            <img src="https://raw.githubusercontent.com/IgnacioJofreGrra/proyecto-biologia-proces/main/images/fnr_focus.png" alt="Doctor interactuando con un paciente, simbolizando el seguimiento médico y la prevención secundaria">
+        </div>
+        
+        <div class="slide">
+            <h1 style="margin-top: 100px;">¡Comienza la Trivia!</h1>
+            <h2 style="text-align: center; color: var(--color-texto); font-weight: 400; font-size: 1.5rem;">
+                ¡Con toda la información que acabamos de ver, vamos a jugar!
+            </h2>
+        </div>
+
+        <div class="slide trivia-question">
+            <h3>Pregunta 1/6</h3>
+            <p class="question-text">Según vimos, ¿qué porcentaje aproximado de todas las muertes en el mundo en 2022 se debió a ECV?</p>
+            <div class="answer-options">
+                <div class="option" data-correct="false" data-rationale="Esta cifra es muy baja. Mencionamos que era la principal causa global.">15%</div>
+                <div class="option" data-correct="true" data-rationale="¡Correcto! Mencionamos que casi un tercio (32%) de todas las muertes globales fueron por ECV.">32%</div>
+                <div class="option" data-correct="false" data-rationale="Esa cifra no la mencionamos para el dato mundial.">23.3%</div>
+                <div class="option" data-correct="false" data-rationale="¡Es un número muy alto! Pero la cifra que vimos era un poco menor.">50%</div>
+            </div>
+            <div class="feedback">
+                <p class="rationale-text"></p>
+            </div>
+        </div>
+
+        <div class="slide trivia-question">
+            <h3>Pregunta 2/6</h3>
+            <p class="question-text">¿Qué es la aterosclerosis, según lo que explicamos?</p>
+            <div class="answer-options">
+                <div class="option" data-correct="false" data-rationale="No, eso sería un ACV. La aterosclerosis la describimos como un proceso crónico y silencioso.">Un proceso agudo que consiste en la rotura de un vaso sanguíneo en el cerebro.</div>
+                <div class="option" data-correct="false" data-rationale="No mencionamos el ejercicio. Hablamos de acumulación de algo en las arterias.">Un engrosamiento del músculo cardíaco debido al exceso de ejercicio.</div>
+                <div class="option" data-correct="true" data-rationale="¡Exacto! Esa es la definición que dimos: un proceso crónico y silencioso de acumulación de 'placa'.">Un proceso crónico de acumulación de depósitos de grasa y colesterol (placa) en el interior de las arterias.</div>
+                <div class="option" data-correct="false" data-rationale="Esa es la definición de Hipertensión Arterial (HTA), no de aterosclerosis.">La fuerza excesiva y constante de la sangre contra las paredes arteriales.</div>
+            </div>
+            <div class="feedback">
+                <p class="rationale-text"></p>
+            </div>
+        </div>
+
+        <div class="slide trivia-question">
+            <h3>Pregunta 3/6</h3>
+            <p class="question-text">¿Cuál es la "brecha de conocimiento" que identificamos como crítica en Uruguay?</p>
+            <div class="answer-options">
+                <div class="option" data-correct="false" data-rationale="Si bien es un problema, la 'brecha' se refería al diagnóstico y manejo.">La falta de médicos especialistas en cardiología en el norte del país.</div>
+                <div class="option" data-correct="false" data-rationale="Hablamos del alto consumo de sal, pero la 'brecha' se refería al diagnóstico.">La falta de leyes que regulen el consumo de sal.</div>
+                <div class="option" data-correct="true" data-rationale="¡Exacto! Mencionamos que era alarmante que casi la mitad no supiera su diagnóstico.">Que casi la mitad de las personas con HTA o diabetes no saben que tienen la enfermedad.</div>
+                <div class="option" data-correct="false" data-rationale="El problema es que muchos no saben que tienen la enfermedad y no la controlan.">Que la población no sabe qué es una ECV, pero sí sabe cómo tratarla.</div>
+            </div>
+            <div class="feedback">
+                <p class="rationale-text"></p>
+            </div>
+        </div>
+        
+        <div class="slide trivia-question">
+            <h3>Pregunta 4/6</h3>
+            <p class="question-text">¿Cuánto es el consumo promedio de sal por día de la población uruguaya?</p>
+            <div class="answer-options">
+                <div class="option" data-correct="false" data-rationale="¡No! Eso es lo que la OMS recomienda como MÁXIMO, pero dijimos que consumimos casi el doble.">5 gramos (la recomendación de la OMS).</div>
+                <div class="option" data-correct="false" data-rationale="Ojalá, pero mencionamos que el consumo era muy elevado.">Menos de 3 gramos.</div>
+                <div class="option" data-correct="true" data-rationale="¡Correcto! Mencionamos la cifra exacta de 9.7 gramos, casi el doble de lo recomendado.">9.7 gramos (casi el doble de lo recomendado).</div>
+                <div class="option" data-correct="false" data-rationale="¡Sí la mencionamos! Fue uno de los datos clave en la sección de 'Hábitos y Riesgos'.">No se mencionó la cifra exacta.</div>
+            </div>
+            <div class="feedback">
+                <p class="rationale-text"></p>
+            </div>
+        </div>
+
+        <div class="slide trivia-question">
+            <h3>Pregunta 5/6</h3>
+            <p class="question-text">¿Qué dato alarmante mencionamos sobre la actividad física en los adolescentes uruguayos?</p>
+            <div class="answer-options">
+                <div class="option" data-correct="true" data-rationale="¡Ese es! Usamos esa fracción exacta (7 de cada 10) para ilustrar el alto sedentarismo.">7 de cada 10 no realizan la actividad física mínima recomendada.</div>
+                <div class="option" data-correct="false" data-rationale="El dato era alarmante, lo que sugiere lo contrario: un alto sedentarismo.">La mayoría prefiere los deportes de equipo a las pantallas.</div>
+                <div class="option" data-correct="false" data-rationale="Mencionamos que era un dato 'alarmante', por lo que el porcentaje era mucho mayor.">Solo el 10% es sedentario.</div>
+                <div class="option" data-correct="false" data-rationale="Al contrario, el dato era preocupante porque la gran mayoría NO cumple.">Todos los adolescentes cumplen con la actividad mínima.</div>
+            </div>
+            <div class="feedback">
+                <p class="rationale-text"></p>
+            </div>
+        </div>
+
+        <div class="slide trivia-question">
+            <h3>Pregunta 6/6</h3>
+            <p class="question-text">¿En qué se enfoca el Programa de Prevención Cardiovascular del Fondo Nacional de Recursos (FNR)?</p>
+            <div class="answer-options">
+                <div class="option" data-correct="false" data-rationale="No, dijimos que se enfocaba en un grupo específico de pacientes, no en todos.">En la prevención primaria para toda la población uruguaya.</div>
+                <div class="option" data-correct="true" data-rationale="¡Exacto! Mencionamos que era 'prevención secundaria', o sea, para pacientes que ya tuvieron un evento.">En pacientes que ya han sido diagnosticados con enfermedad coronaria (prevención secundaria).</div>
+                <div class="option" data-correct="false" data-rationale="Esa sería una acción de prevención primaria, y dijimos que el FNR se enfocaba en la secundaria.">En la promoción de la salud cardiovascular en escuelas.</div>
+                <div class="option" data-correct="false" data-rationale="No mencionamos que este programa subsidiara alimentos.">En subsidiar el consumo de frutas y verduras.</div>
+            </div>
+            <div class="feedback">
+                <p class="rationale-text"></p>
+            </div>
+        </div>
+        
+        <div class="slide">
+            <h1 style="margin-top: 100px;">¡Fin de la Trivia!</h1>
+            <h2 style="text-align: center; color: var(--color-texto); font-weight: 400; font-size: 1.5rem;">
+                ¡Excelente trabajo!
+            </h2>
+            <p style="font-size: 1.2rem; text-align: center; margin-top: 30px;">
+                Espero que esta actividad les haya servido para aprender más sobre la importancia de cuidar nuestra salud.
+                <br><br>
+                ¡Gracias por participar!
+            </p>
+        </div>
+
+
+        <button class="nav-btn prev-btn" id="prev-btn">❮</button>
+        <button class="nav-btn next-btn" id="next-btn">❯</button>
+    </div>
+
+    <script>
+// ========== JS embebido desde assets/js/script.js ==========
+document.addEventListener('DOMContentLoaded', () => {
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const counterEl = document.getElementById('slide-counter');
+
+    function showSlide(n) {
+        // Ocultar todas las diapositivas
+        slides.forEach(slide => slide.style.display = 'none');
+
+        // Asegurar que el índice esté en el rango correcto
+        currentSlide = (n + totalSlides) % totalSlides;
+
+        // Mostrar la diapositiva actual
+        slides[currentSlide].style.display = 'block';
+
+        // Actualizar contador
+        counterEl.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        
+        // Lógica de botones
+        checkTriviaAndNav();
+    }
+
+    // Lógica para ocultar 'Siguiente' en las diapositivas de trivia
+    // hasta que se responda.
+    function checkTriviaAndNav() {
+        if (slides[currentSlide].classList.contains('trivia-question') && 
+            !slides[currentSlide].dataset.answered) {
+            nextBtn.style.display = 'none'; // Ocultar 'Siguiente' si la trivia no está respondida
+        } else if (currentSlide === totalSlides - 1) {
+            nextBtn.style.display = 'none'; // Ocultar 'Siguiente' en la última diapositiva
+        } else {
+            nextBtn.style.display = 'block'; // Mostrar 'Siguiente'
+        }
+        
+        // Ocultar 'Anterior' en la primera diapositiva
+        prevBtn.style.display = (currentSlide === 0) ? 'none' : 'block';
+    }
+
+    // Lógica de los botones
+    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+
+    // Lógica de la Trivia
+    const triviaOptions = document.querySelectorAll('.option');
+
+    triviaOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const slide = option.closest('.slide');
+            const feedbackEl = slide.querySelector('.feedback');
+            const rationaleEl = slide.querySelector('.rationale-text');
+            const allOptions = slide.querySelectorAll('.option');
+            
+            // Evitar doble click
+            if (slide.dataset.answered === 'true') return;
+            slide.dataset.answered = 'true';
+
+            const isCorrect = option.dataset.correct === 'true';
+            const rationale = option.dataset.rationale;
+
+            // Deshabilitar todas las opciones
+            allOptions.forEach(opt => opt.style.pointerEvents = 'none');
+
+            // Mostrar feedback
+            rationaleEl.textContent = rationale;
+            feedbackEl.classList.add('show');
+
+            if (isCorrect) {
+                option.classList.add('correct');
+                feedbackEl.classList.add('correct');
+            } else {
+                option.classList.add('incorrect');
+                feedbackEl.classList.add('incorrect');
+                // Resaltar la correcta
+                const correctOpt = slide.querySelector('[data-correct="true"]');
+                if (correctOpt) {
+                    correctOpt.classList.add('correct');
+                }
+            }
+            
+            // Mostrar el botón 'Siguiente' automáticamente después de responder
+            if (currentSlide !== totalSlides - 1) {
+                nextBtn.style.display = 'block';
+            }
+        });
+    });
+
+    // Iniciar
+    showSlide(currentSlide);
+});
+    </script>
+
+</body>
+</html>
